@@ -5,6 +5,10 @@ import konkuk.kupassback.dto.ArticleDTO;
 import konkuk.kupassback.repository.ArticleRepository;
 import konkuk.kupassback.specification.ArticleSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +24,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public List<ArticleDTO> searchArticle(String publisher, String keyword, String category) {
+    public List<ArticleDTO> searchArticle(String publisher, String keyword, String category, Pageable page) {
         Map<String, Object> searchKeys = new HashMap<>();
         if (!publisher.isEmpty()) {
             searchKeys.put("publisher", publisher);
@@ -32,7 +36,7 @@ public class ArticleService {
             searchKeys.put("category", category);
         }
 
-        return articleRepository.findAll(ArticleSpecification.searchArticle(searchKeys))
+        return articleRepository.findAll(ArticleSpecification.searchArticle(searchKeys), page)
                 .stream()
                 .map(ArticleDTO::new)
                 .collect(Collectors.toList());
