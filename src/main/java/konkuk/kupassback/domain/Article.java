@@ -33,6 +33,8 @@ public class Article {
 
     private String summary;
 
+    private String source;
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Keyword> keywords = new ArrayList<>();
 }
