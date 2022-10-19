@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Subquery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,13 @@ public class ArticleSpecification {
             List<Predicate> predicates = new ArrayList<>();
             for (Map.Entry<String, Object> keyVal : searchKeys.entrySet()) {
                 if (keyVal.getKey().equals("keyword")) {
-                    Join<Object, Object> join = root.join("keywords", JoinType.INNER);
-                    predicates.add(criteriaBuilder.equal(join.get(keyVal.getKey()), keyVal.getValue()));
+                    Join<Object, Object> articleKeywords = root.join("keywords", JoinType.INNER);
+
+                    //
+                    Subquery<>
+                    //
+
+                    predicates.add(criteriaBuilder.equal(articleKeywords.get(keyVal.getKey()), keyVal.getValue()));
                 }
                 else {
                     predicates.add(criteriaBuilder.equal(root.get(keyVal.getKey()), keyVal.getValue()));
