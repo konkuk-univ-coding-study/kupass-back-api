@@ -1,6 +1,7 @@
 package konkuk.kupassback.dto;
 
 import konkuk.kupassback.domain.Article;
+import konkuk.kupassback.domain.ArticleKeywords;
 import konkuk.kupassback.domain.Keyword;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class ArticleDTO {
         this.summary = article.getSummary();
         this.keywords = article.getKeywords()
                 .stream()
-                .map(Keyword::getKeyword).collect(Collectors.toList());
+                .map(articleKeywords -> articleKeywords.getKeyword().getKeyword())
+                .collect(Collectors.toList());
     }
 
     private LocalDateTime createDate;
