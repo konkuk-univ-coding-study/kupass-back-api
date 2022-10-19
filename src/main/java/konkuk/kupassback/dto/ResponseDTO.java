@@ -9,11 +9,11 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-public class ResponseDTO {
+public class ResponseDTO<T> {
 
     private String success;
     private String message;
 
-    private List<ArticleDTO> articles;
+    private List<T> articles;
 
 }

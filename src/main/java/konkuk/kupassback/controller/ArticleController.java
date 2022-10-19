@@ -22,7 +22,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> search(
+    public ResponseEntity<ResponseDTO<ArticleDTO>> search(
             @RequestParam(value = "publisher", required = false, defaultValue = "") String publisher,
             @RequestParam(value = "category", required = false, defaultValue = "") String category,
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
@@ -31,6 +31,6 @@ public class ArticleController {
         PageRequest pageRequest = PageRequest.of(page, 20);
         List<ArticleDTO> articles = articleService.searchArticle(publisher, keyword, category, pageRequest);
 
-        return new ResponseEntity<>(new ResponseDTO("success", "ok", articles), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO<>("success", "ok", articles), HttpStatus.OK);
     }
 }
