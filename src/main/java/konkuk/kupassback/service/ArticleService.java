@@ -11,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,7 +26,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     public List<ArticleDTO> searchArticle(String publisher, String keyword, String category, Pageable page) {
-        Stream<Article> articleStream;
+        /*Stream<Article> articleStream;
         if (!keyword.isEmpty()) {
             articleStream = articleKeywordsRepository.findAll(ArticleSpecification.searchKeyword(keyword), page)
                     .stream()
@@ -40,9 +42,22 @@ public class ArticleService {
         if (!category.isEmpty()) {
             articleStream = articleStream
                     .filter(article -> article.getCategory().equals(category));
+        }*/
+
+        Map<String, String> searchKeys = new HashMap<>();
+        if (!publisher.isEmpty()) {
+            searchKeys.put("publisher", publisher);
+        }
+        if (!keyword.isEmpty()) {
+            searchKeys.put("keyword", keyword);
+        }
+        if (!category.isEmpty()) {
+            searchKeys.put("category", category);
         }
 
-        return articleStream
+        return articleKeywordsRepository.findAll(ArticleSpecification.searchArticle(searchKeys), page)
+                .stream()
+                .map(ArticleKeywords::getArticle)
                 .map(ArticleDTO::new)
                 .collect(Collectors.toList());
     }

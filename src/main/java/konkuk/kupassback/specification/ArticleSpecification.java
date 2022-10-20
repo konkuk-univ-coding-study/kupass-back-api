@@ -17,17 +17,18 @@ public class ArticleSpecification {
             return criteriaBuilder.equal(articleKeywords.get("keyword"), keyword);
         };
     }
-    public static Specification<ArticleKeywords> searchArticle(Map<String, Object> searchKeys) {
+    public static Specification<ArticleKeywords> searchArticle(Map<String, String> searchKeys) {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            for (Map.Entry<String, Object> keyVal : searchKeys.entrySet()) {
+            for (Map.Entry<String, String> keyVal : searchKeys.entrySet()) {
                 if (keyVal.getKey().equals("keyword")) {
                     Join<Object, Object> articleKeywords = root.join("keyword", JoinType.INNER);
                     predicates.add(criteriaBuilder.equal(articleKeywords.get(keyVal.getKey()), keyVal.getValue()));
 //                    predicates.add(criteriaBuilder.equal(root.get("keyword"), keyVal.getValue()));
                 }
                 else {
-                    predicates.add(criteriaBuilder.equal(root.get(keyVal.getKey()), keyVal.getValue()));
+                    Join<Object, Object> articleKeywords = root.join("article", JoinType.INNER);
+                    predicates.add(criteriaBuilder.equal(articleKeywords.get(keyVal.getKey()), keyVal.getValue()));
                 }
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
