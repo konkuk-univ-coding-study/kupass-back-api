@@ -1,6 +1,5 @@
 package konkuk.kupassback.specification;
 
-import konkuk.kupassback.domain.Article;
 import konkuk.kupassback.domain.ArticleKeywords;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -11,13 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ArticleSpecification {
+public class ArticleKeywordSpecification {
 
-    public static Specification<Article> searchArticle(Map<String, String> searchKeys) {
+    public static Specification<ArticleKeywords> searchArticle(Map<String, String> searchKeys) {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             for (Map.Entry<String, String> keyVal : searchKeys.entrySet()) {
-                predicates.add(criteriaBuilder.equal(root.get(keyVal.getKey()), keyVal.getValue()));
+                Join<Object, Object> joinEntity;
+                if (keyVal.getKey().equals("keyword")) {
+                    joinEntity = root.join("keyword", JoinType.INNER);
+                }
+                else {
+                    joinEntity = root.join("article", JoinType.INNER);
+                }
+                predicates.add(criteriaBuilder.equal(joinEntity.get(keyVal.getKey()), keyVal.getValue()));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
