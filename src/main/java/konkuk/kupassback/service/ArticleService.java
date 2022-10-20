@@ -5,6 +5,7 @@ import konkuk.kupassback.domain.ArticleKeywords;
 import konkuk.kupassback.dto.ArticleDTO;
 import konkuk.kupassback.repository.ArticleKeywordsRepository;
 import konkuk.kupassback.repository.ArticleRepository;
+import konkuk.kupassback.specification.ArticleKeywordSpecification;
 import konkuk.kupassback.specification.ArticleSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -26,24 +27,6 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     public List<ArticleDTO> searchArticle(String publisher, String keyword, String category, Pageable page) {
-        /*Stream<Article> articleStream;
-        if (!keyword.isEmpty()) {
-            articleStream = articleKeywordsRepository.findAll(ArticleSpecification.searchKeyword(keyword), page)
-                    .stream()
-                    .map(ArticleKeywords::getArticle);
-        } else {
-            articleStream = articleRepository.findAll(page)
-                    .stream();
-        }
-        if (!publisher.isEmpty()) {
-            articleStream = articleStream
-                    .filter(article -> article.getPublisher().equals(publisher));
-        }
-        if (!category.isEmpty()) {
-            articleStream = articleStream
-                    .filter(article -> article.getCategory().equals(category));
-        }*/
-
         Map<String, String> searchKeys = new HashMap<>();
         if (!publisher.isEmpty()) {
             searchKeys.put("publisher", publisher);
@@ -55,9 +38,15 @@ public class ArticleService {
             searchKeys.put("category", category);
         }
 
-        return articleKeywordsRepository.findAll(ArticleSpecification.searchArticle(searchKeys), page)
+        if (!keyword.isEmpty()) {
+            return articleKeywordsRepository.findAll(ArticleKeywordSpecification.searchArticle(searchKeys), page)
+                    .stream()
+                    .map(ArticleKeywords::getArticle)
+                    .map(ArticleDTO::new)
+                    .collect(Collectors.toList());
+        }
+        return articleRepository.findAll(ArticleSpecification.searchArticle(searchKeys), page)
                 .stream()
-                .map(ArticleKeywords::getArticle)
                 .map(ArticleDTO::new)
                 .collect(Collectors.toList());
     }
