@@ -1,7 +1,7 @@
 package konkuk.kupassback.controller;
 
 import konkuk.kupassback.dto.ArticleDTO;
-import konkuk.kupassback.dto.ResponseDTO;
+import konkuk.kupassback.dto.ArticleResponseDTO;
 import konkuk.kupassback.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> search(
+    public ResponseEntity<ArticleResponseDTO>search(
             @RequestParam(value = "publisher", required = false, defaultValue = "") String publisher,
             @RequestParam(value = "category", required = false, defaultValue = "") String category,
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
@@ -31,6 +31,6 @@ public class ArticleController {
         PageRequest pageRequest = PageRequest.of(page, 20);
         List<ArticleDTO> articles = articleService.searchArticle(publisher, keyword, category, pageRequest);
 
-        return new ResponseEntity<>(new ResponseDTO("success", "ok", articles), HttpStatus.OK);
+        return new ResponseEntity<>(new ArticleResponseDTO("success", "ok", articles), HttpStatus.OK);
     }
 }

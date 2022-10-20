@@ -4,13 +4,12 @@ import lombok.*;
 
 import java.util.List;
 
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
-public class ResponseDTO {
-
+@Setter
+@ToString
+public class ArticleResponseDTO {
     private String success;
     private String message;
 
