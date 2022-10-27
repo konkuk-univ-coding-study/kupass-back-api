@@ -15,7 +15,17 @@ import java.util.stream.Collectors;
 @Getter
 public class ArticleDTO {
 
+    private Long articleId;
+    private LocalDateTime createDate;
+    private String publisher;
+    private String category;
+    private String title;
+    private String content;
+    private String summary;
+    private List<String> keywords = new ArrayList<>();
+
     public ArticleDTO(Article article) {
+        this.articleId = article.getId();
         this.createDate = article.getCreateDate();
         this.publisher = article.getPublisher();
         this.category = article.getCategory();
@@ -27,19 +37,5 @@ public class ArticleDTO {
                 .map(articleKeywords -> articleKeywords.getKeyword().getKeyword())
                 .collect(Collectors.toList());
     }
-
-    private LocalDateTime createDate;
-
-    private String publisher;
-
-    private String category;
-
-    private String title;
-
-    private String content;
-
-    private String summary;
-
-    private List<String> keywords = new ArrayList<>();
 
 }
