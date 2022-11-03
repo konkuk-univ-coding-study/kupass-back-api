@@ -20,6 +20,9 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = resolveToken(request);
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         if (tokenProvider.validateToken(token)) {
             String username = tokenProvider.getSubject(token);
             request.setAttribute("username", username);
