@@ -1,5 +1,7 @@
 package konkuk.kupassback.jwt;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,16 +16,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@RequiredArgsConstructor
+@Slf4j
 public class JWTFilter extends GenericFilterBean {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
-
-    public JWTFilter(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -32,14 +30,14 @@ public class JWTFilter extends GenericFilterBean {
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
-        System.out.println("jwt = " + jwt);
+        log.info("들어온 jwt: {}", jwt);
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         } else {
-            logger.info("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
+            log.info("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
         }
 
         chain.doFilter(request, response);

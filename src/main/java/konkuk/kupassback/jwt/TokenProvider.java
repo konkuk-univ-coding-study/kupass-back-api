@@ -3,6 +3,7 @@ package konkuk.kupassback.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,9 +20,8 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class TokenProvider implements InitializingBean {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String AUTHORITIES_KEY = "auth";
     private final String secret;
@@ -76,13 +76,13 @@ public class TokenProvider implements InitializingBean {
                     .parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명");
+            log.info("잘못된 JWT 서명");
         } catch (ExpiredJwtException e) {
-            logger.info("만료된 JWT 토큰");
+            log.info("만료된 JWT 토큰");
         } catch (UnsupportedJwtException e) {
-            logger.info("지원되지 않는 JWT 토큰");
+            log.info("지원되지 않는 JWT 토큰");
         } catch (IllegalArgumentException e) {
-            logger.info("JWT 토큰이 잘못됨");
+            log.info("JWT 토큰이 잘못됨");
         }
         return false;
     }
