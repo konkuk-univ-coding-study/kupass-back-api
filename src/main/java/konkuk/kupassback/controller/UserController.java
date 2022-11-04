@@ -1,7 +1,6 @@
 package konkuk.kupassback.controller;
 
 import konkuk.kupassback.domain.User;
-import konkuk.kupassback.dto.ArticleResponseDTO;
 import konkuk.kupassback.dto.KeywordDTO;
 import konkuk.kupassback.dto.KeywordResponseDTO;
 import konkuk.kupassback.dto.UserResponseDTO;
@@ -12,7 +11,6 @@ import konkuk.kupassback.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +36,6 @@ public class UserController {
         return new ResponseEntity<>(new KeywordResponseDTO("success", "ok", keywords), HttpStatus.OK);
     }
 
-    // todo 키워드 저장
     @PostMapping("/{nickname}/keywords")
     public ResponseEntity<UserResponseDTO> saveKeyword(@PathVariable String nickname,
                                                        @RequestBody KeywordDTO keywordDTO,
