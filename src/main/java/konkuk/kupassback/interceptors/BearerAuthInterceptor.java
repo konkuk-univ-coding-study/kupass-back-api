@@ -1,6 +1,7 @@
 package konkuk.kupassback.interceptors;
 
 import konkuk.kupassback.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -9,13 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
+@RequiredArgsConstructor
 public class BearerAuthInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
-
-    public BearerAuthInterceptor(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

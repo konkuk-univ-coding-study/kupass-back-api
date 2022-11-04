@@ -1,19 +1,17 @@
 package konkuk.kupassback.config;
 
 import konkuk.kupassback.interceptors.BearerAuthInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
     private final BearerAuthInterceptor bearerAuthInterceptor;
-
-    public WebConfig(BearerAuthInterceptor bearerAuthInterceptor) {
-        this.bearerAuthInterceptor = bearerAuthInterceptor;
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

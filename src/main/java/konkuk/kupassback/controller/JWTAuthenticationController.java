@@ -4,6 +4,7 @@ import konkuk.kupassback.dto.LoginDTO;
 import konkuk.kupassback.dto.TokenDTO;
 import konkuk.kupassback.jwt.JWTFilter;
 import konkuk.kupassback.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/authenticate")
+@RequiredArgsConstructor
 public class JWTAuthenticationController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    public JWTAuthenticationController(TokenProvider tokenProvider,
-                                       AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
 
     @PostMapping
     public ResponseEntity<TokenDTO> authorize(@RequestBody LoginDTO loginDTO) {
