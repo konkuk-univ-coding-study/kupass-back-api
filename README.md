@@ -51,8 +51,6 @@
 
 # 로그인
 
----
-
 ## 요청
 
 | POST https://konkukstudy.site/api/authenticate   |
@@ -93,6 +91,8 @@
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiIiLCJleHAiOjE2NjY4NTI5MDZ9.99PsiuDLVQzuRDq3BxWDeVwoNLCOkTYSecvn-ibIPfs"
 }
 ```
+
+---
 
 # 키워드 조회
 
@@ -147,8 +147,6 @@
 
 # 키워드 저장
 
----
-
 ## 요청
 
 | POST https://konkukstudy.site/api/user/{nickname}/keywords |
@@ -194,8 +192,6 @@
 ---
 
 # 기사 검색
-
----
 
 ## 요청
 
