@@ -105,9 +105,7 @@
 
 ```json
 {
-    ...
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiIiLCJleHAiOjE2NjY4NTI5MDZ9.99PsiuDLVQzuRDq3BxWDeVwoNLCOkTYSecvn-ibIPfs"
-    ...
 }
 ```
 
@@ -160,9 +158,7 @@
 
 ```json
 {
-    ...
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiIiLCJleHAiOjE2NjY4NTI5MDZ9.99PsiuDLVQzuRDq3BxWDeVwoNLCOkTYSecvn-ibIPfs"
-    ...
 }
 ```
 
@@ -210,9 +206,7 @@
 
 ```json
 {
-    ...
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiIiLCJleHAiOjE2NjY4NTI5MDZ9.99PsiuDLVQzuRDq3BxWDeVwoNLCOkTYSecvn-ibIPfs"
-    ...
 }
 ```
 
