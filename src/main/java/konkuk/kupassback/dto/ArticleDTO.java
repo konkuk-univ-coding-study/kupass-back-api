@@ -19,6 +19,7 @@ public class ArticleDTO {
     private LocalDateTime createDate;
     private String publisher;
     private String category;
+    private String source;
     private String title;
     private String content;
     private String summary;
@@ -29,6 +30,7 @@ public class ArticleDTO {
         this.createDate = article.getCreateDate();
         this.publisher = article.getPublisher();
         this.category = article.getCategory();
+        this.source = article.getSource();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.summary = article.getSummary();
