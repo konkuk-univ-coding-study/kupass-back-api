@@ -32,6 +32,6 @@ public class ArticleController {
         List<ArticleDTO> articles = articleService.searchArticle(publisher, keyword, category, pageRequest);
 
         return new ResponseEntity<>(new ArticleResponseDTO("success", "ok", articles,
-                articles.isEmpty()), HttpStatus.OK);
+                articles.size() < 20), HttpStatus.OK);
     }
 }
