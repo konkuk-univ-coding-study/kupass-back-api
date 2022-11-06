@@ -5,6 +5,7 @@ import konkuk.kupassback.dto.KeywordDTO;
 import konkuk.kupassback.dto.KeywordResponseDTO;
 import konkuk.kupassback.dto.UserResponseDTO;
 import konkuk.kupassback.exceptions.KeywordExistsException;
+import konkuk.kupassback.exceptions.KeywordNotExistsException;
 import konkuk.kupassback.jwt.TokenProvider;
 import konkuk.kupassback.service.KeywordService;
 import konkuk.kupassback.service.UserService;
@@ -40,10 +41,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> saveKeyword(@PathVariable String nickname,
                                                        @RequestBody KeywordDTO keywordDTO,
                                                        HttpServletRequest request) {
-        String header = request.getHeader(AUTHORIZATION_HEADER);
-        String token = header.substring(7);
-        String subject = tokenProvider.getSubject(token);
-
+        String subject = getSubject(request);
         if (!subject.equals(nickname)) {
             return new ResponseEntity<>(
                     new UserResponseDTO("fail", "user doesn't match"), HttpStatus.OK);
@@ -58,5 +56,33 @@ public class UserController {
         }
 
         return new ResponseEntity<>(new UserResponseDTO("success", "ok"), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{nickname}/keywords/{keyword}")
+    public ResponseEntity<UserResponseDTO> deleteKeyword(@PathVariable String nickname,
+                                                         @PathVariable String keyword,
+                                                         HttpServletRequest request) {
+        String subject = getSubject(request);
+        if (!subject.equals(nickname)) {
+            return new ResponseEntity<>(
+                    new UserResponseDTO("fail", "user doesn't match"), HttpStatus.OK);
+        }
+        User user = userService.findUser(nickname);
+
+        try {
+            keywordService.deleteKeyword(user, keyword);
+        } catch (KeywordNotExistsException e) {
+            return new ResponseEntity<>(
+                    new UserResponseDTO("fail", "keyword not exists"), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(new UserResponseDTO("success", "successfully deleted " + keyword),
+                HttpStatus.OK);
+    }
+
+    private String getSubject(HttpServletRequest request) {
+        String header = request.getHeader(AUTHORIZATION_HEADER);
+        String token = header.substring(7);
+        return tokenProvider.getSubject(token);
     }
 }

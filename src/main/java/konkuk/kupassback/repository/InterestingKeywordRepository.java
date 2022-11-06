@@ -1,6 +1,7 @@
 package konkuk.kupassback.repository;
 
 import konkuk.kupassback.domain.InterestingKeyword;
+import konkuk.kupassback.domain.Keyword;
 import konkuk.kupassback.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,4 +13,5 @@ public interface InterestingKeywordRepository extends JpaRepository<InterestingK
 
     List<InterestingKeyword> findAllByUserEquals(User user);
 
+    void deleteByKeyword(Keyword keyword);
 }

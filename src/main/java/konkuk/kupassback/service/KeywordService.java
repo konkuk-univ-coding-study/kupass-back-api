@@ -4,6 +4,7 @@ import konkuk.kupassback.domain.InterestingKeyword;
 import konkuk.kupassback.domain.Keyword;
 import konkuk.kupassback.domain.User;
 import konkuk.kupassback.exceptions.KeywordExistsException;
+import konkuk.kupassback.exceptions.KeywordNotExistsException;
 import konkuk.kupassback.repository.InterestingKeywordRepository;
 import konkuk.kupassback.repository.KeywordRepository;
 import konkuk.kupassback.specification.InterestingKeywordSpecification;
@@ -58,5 +59,15 @@ public class KeywordService {
                     keyword.setKeyword(keywordName);
                     return keywordRepository.save(keyword);
                 });
+    }
+
+    public void deleteKeyword(User user, String keyword) {
+        if (!checkAlreadyHas(user, keyword)) {
+            throw new KeywordNotExistsException();
+        }
+        Keyword deleteKeyword = keywordRepository.findKeywordByKeyword(keyword)
+                .orElseThrow(KeywordNotExistsException::new);
+
+        interestingKeywordRepository.deleteByKeyword(deleteKeyword);
     }
 }
