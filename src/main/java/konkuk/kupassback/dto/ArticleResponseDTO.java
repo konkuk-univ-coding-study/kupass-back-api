@@ -15,4 +15,5 @@ public class ArticleResponseDTO {
 
     private List<ArticleDTO> articles;
 
+    private boolean last;
 }
