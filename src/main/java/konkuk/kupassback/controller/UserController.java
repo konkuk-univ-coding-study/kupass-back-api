@@ -1,7 +1,6 @@
 package konkuk.kupassback.controller;
 
 import konkuk.kupassback.domain.User;
-import konkuk.kupassback.dto.KeywordDTO;
 import konkuk.kupassback.dto.KeywordResponseDTO;
 import konkuk.kupassback.dto.UserResponseDTO;
 import konkuk.kupassback.exceptions.KeywordExistsException;
@@ -37,9 +36,9 @@ public class UserController {
         return new ResponseEntity<>(new KeywordResponseDTO("success", "ok", keywords), HttpStatus.OK);
     }
 
-    @PostMapping("/{nickname}/keywords")
+    @PutMapping("/{nickname}/keywords/{keyword}")
     public ResponseEntity<UserResponseDTO> saveKeyword(@PathVariable String nickname,
-                                                       @RequestBody KeywordDTO keywordDTO,
+                                                       @PathVariable String keyword,
                                                        HttpServletRequest request) {
         String subject = getSubject(request);
         if (!subject.equals(nickname)) {
@@ -49,7 +48,7 @@ public class UserController {
 
         User user = userService.findUser(nickname);
         try {
-            keywordService.saveKeyword(user, keywordDTO.getKeyword());
+            keywordService.saveKeyword(user, keyword);
         } catch (KeywordExistsException e) {
             return new ResponseEntity<>(
                     new UserResponseDTO("fail", "keyword already exists"), HttpStatus.OK);
