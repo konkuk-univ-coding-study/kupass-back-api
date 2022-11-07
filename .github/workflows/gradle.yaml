@@ -29,7 +29,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Make application.yaml
-      uses: actions/cache@v2
       run: |
         touch ./src/main/resources/application.yaml
         echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yaml
@@ -42,4 +41,3 @@ jobs:
       run: |
         docker build --build-arg DEPENDENCY=build/dependency -t lifetwoshot/kupass . 
         docker push lifetwoshot/kupass
-
