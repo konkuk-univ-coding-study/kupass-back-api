@@ -6,4 +6,6 @@ COPY ${JAR_FILE} app.jar
 
 EXPOSE 8443
 
+ENV TZ Asia/Seoul
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
