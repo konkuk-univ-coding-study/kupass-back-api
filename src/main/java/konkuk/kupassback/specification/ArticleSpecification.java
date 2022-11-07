@@ -19,6 +19,7 @@ public class ArticleSpecification {
             for (Map.Entry<String, String> keyVal : searchKeys.entrySet()) {
                 predicates.add(criteriaBuilder.equal(root.get(keyVal.getKey()), keyVal.getValue()));
             }
+            query.orderBy(criteriaBuilder.desc(root.get("createDate")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
