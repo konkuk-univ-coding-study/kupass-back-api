@@ -33,8 +33,9 @@ jobs:
       uses: samin/mysql-action@v1
       with:
         character set server: 'utf8'
-        mysql user: ${{ secrets.DBUSER }}
-        mysql password: ${{ secrets.DBPASSWORD }}
+        mysql database: 'action_test'
+        mysql user: admin
+        mysql password: admin123!
 
         
     - name: Grant execute permission for gradlew
