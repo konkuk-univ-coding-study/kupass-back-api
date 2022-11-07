@@ -33,7 +33,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    -name: Docker Build
+    - name: Docker Build
       run: |
         docker build --build-arg DEPENDENCY=build/dependency -t lifetwoshot/kupass . 
         docker push lifetwoshot/kupass
+
