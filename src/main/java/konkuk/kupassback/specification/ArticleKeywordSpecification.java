@@ -25,6 +25,8 @@ public class ArticleKeywordSpecification {
                 }
                 predicates.add(criteriaBuilder.equal(joinEntity.get(keyVal.getKey()), keyVal.getValue()));
             }
+            Join<Object, Object> article = root.join("article");
+            query.orderBy(criteriaBuilder.desc(article.get("createDate")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
