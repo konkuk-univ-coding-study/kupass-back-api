@@ -42,3 +42,16 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker build --build-arg DEPENDENCY=build/dependency -t lifetwoshot/kupass . 
         docker push lifetwoshot/kupass
+
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          sudo docker stop kupass-back
+          sudo docker rm -f $(sudo docker ps -qa)
+          sudo docker pull lifetwoshot/kupass
+          sudo docker run -it -d --name kupass-back -v kupass-volume:/kupass-back/log -p 8443:8443 lifetwoshot/kupass
+
