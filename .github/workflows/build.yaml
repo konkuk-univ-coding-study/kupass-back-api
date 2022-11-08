@@ -63,8 +63,8 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          sudo docker stop kupass-back
-          sudo docker rm -f $(sudo docker ps -qa)
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+          sudo docker stop kupass-back
+          sudo docker rm kupass-back
           sudo docker run -it -d --name kupass-back -v kupass-volume:/kupass-back/log -p 8443:8443 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
-
+          sudo docker rmi $(sudo docker images -f "dangling=true" -q)
